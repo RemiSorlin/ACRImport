@@ -3,9 +3,6 @@ import tl = require("azure-pipelines-task-lib/task");
 import AcrTaskParameters from "./models/acrtaskparameters"
 import AcrTaskOperations from "./operations/acrtaskoperations"
 
-tl.setResourcePath(path.join(__dirname, 'task.json'));
-tl.setResourcePath(path.join(__dirname, 'node_modules/azure-pipelines-tasks-azure-arm-rest-v2/module.json'));
-
 async function run() { 
     var taskParameters = await new AcrTaskParameters().getAcrTaskParameters();
     var taskOperations = new AcrTaskOperations(taskParameters);

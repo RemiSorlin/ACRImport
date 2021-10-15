@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "rimraf ./ACRImportTask/dist && npm prune --production",
     "build": "tsc --outDir ACRImportTask/dist",
-    "create": "tfx extension create --manifest-globs vss-extension.json --rev-version"
+    "postbuild": "cp -r node_modules ACRImportTask/dist && cp src/task.json ACRImportTask/dist && rm 'ACRImportTask/dist/node_modules/azure-pipelines-tasks-azure-arm-rest-v2/openssl/OpenSSL License.txt'",
+    "create": "npm run build && tfx extension create --manifest-globs vss-extension.json --rev-version",
+    "publish": "npm run build && tfx extension publish --manifest-globs vss-extension.json --rev-version"
   },
   "keywords": [],
   "author": "",
@@ -14,12 +17,9 @@
   "dependencies": {
     "azure-pipelines-task-lib": "^3.1.9",
     "azure-pipelines-tasks-azure-arm-rest-v2": "^2.0.5",
-    "azure-pipelines-tasks-docker-common-v2": "^2.0.6",
-    "azure-pipelines-tool-lib": "^0.13.3",
-    "js-yaml": "^4.1.0"
+    "rimraf": "^3.0.2"
   },
   "devDependencies": {
-    "@types/node": "^16.10.2",
-    "@types/q": "^1.5.5"
+    "@types/node": "^16.10.2"
   }
 }

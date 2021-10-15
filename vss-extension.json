@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "ACRImportTask",
     "name": "ACR import task",
-    "version": "0.0.15",
+    "version": "0.0.21",
     "publisher": "RemiSorlin",
     "targets": [
         {
