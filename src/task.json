@@ -16,7 +16,7 @@
     "version": {
         "Major": 0,
         "Minor": 0,
-        "Patch": 24
+        "Patch": 25
     },
     "instanceNameFormat": "acrImport",
     "showEnvironmentVariables": true,
@@ -41,6 +41,7 @@
             "type": "connectedService:AzureRM",
             "label": "Azure subscription",
             "required": true,
+            "defaultValue": "",
             "helpMarkDown": "Select an Azure resource manager subscription to import from",
             "groupName": "source"
         },
@@ -79,6 +80,7 @@
             "type": "connectedService:AzureRM",
             "label": "Azure subscription",
             "required": true,
+            "defaultValue": "",
             "helpMarkDown": "Select an Azure resource manager subscription to export to",
             "groupName": "target"
         },
