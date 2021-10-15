@@ -1,0 +1,15 @@
+trigger:
+- main
+
+pool: 'Self Windows 10'
+
+steps:
+- task: ACRImport@0
+  inputs:
+    azureSourceSubscription: 'VS remi.sorlin'
+    azureSourceContainerRegistry: 'remisorlin'
+    sourceContainerRepository: 'pyspark'
+    azureTargetSubscription: 'VS remi.sorlin'
+    azureTargetContainerRegistry: 'remisorlindev'
+    targetContainerRepository: 'pyspark'
+    targetTag: 'dev-$(Build.BuildId)'
