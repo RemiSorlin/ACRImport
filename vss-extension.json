@@ -1,0 +1,37 @@
+{
+    "manifestVersion": 1,
+    "id": "ACRImportTask",
+    "name": "ACR import task",
+    "version": "0.0.15",
+    "publisher": "RemiSorlin",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],    
+    "description": "Import an image from one Azure Container Registry into another one",
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "icons": {
+        "default": "images/extension-icon.png"
+    },
+    "files": [
+        {
+            "path": "ACRImportTask",
+            "addressable": true
+        }
+    ],
+    "contributions": [
+        {
+            "id": "custom-build-release-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "ACRImportTask"
+            }
+        }
+    ]
+}
