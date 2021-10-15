@@ -16,7 +16,7 @@
     "version": {
         "Major": 0,
         "Minor": 0,
-        "Patch": 23
+        "Patch": 24
     },
     "instanceNameFormat": "acrImport",
     "showEnvironmentVariables": true,
@@ -115,14 +115,14 @@
             "target": "azureSourceContainerRegistry",
             "endpointId": "$(sourceConnectedServiceName)",
             "dataSourceName": "AzureRMContainerRegistries",
-            "resultTemplate": "{\"DisplayValue\":\"{{{name}}}\", \"Value\":\"{{{properties.loginServer}}}\"}"
+            "resultTemplate": "{\"DisplayValue\":\"{{{name}}}\", \"Value\":\"{{{name}}}\"}"
         },
         {
             "target": "sourceContainerRepository",
             "endpointId": "$(sourceConnectedServiceName)",
             "dataSourceName": "AzureContainerRegistryRepositories",
             "parameters": {
-                "registryurl": "$(azureSourceContainerRegistry)"
+                "registryurl": "$(azureSourceContainerRegistry).azurecr.io"
             },
             "resultTemplate": "{\"DisplayValue\":\"{{{defaultResultKey}}}\", \"Value\":\"{{{defaultResultKey}}}\"}"
         },
@@ -130,14 +130,14 @@
             "target": "azureTargetContainerRegistry",
             "endpointId": "$(targetConnectedServiceName)",
             "dataSourceName": "AzureRMContainerRegistries",
-            "resultTemplate": "{\"DisplayValue\":\"{{{name}}}\", \"Value\":\"{{{properties.loginServer}}}\"}"
+            "resultTemplate": "{\"DisplayValue\":\"{{{name}}}\", \"Value\":\"{{{name}}}\"}"
         },
         {
             "target": "targetContainerRepository",
             "endpointId": "$(targetConnectedServiceName)",
             "dataSourceName": "AzureContainerRegistryRepositories",
             "parameters": {
-                "registryurl": "$(azureTargetContainerRegistry)"
+                "registryurl": "$(azureTargetContainerRegistry).azurecr.io"
             },
             "resultTemplate": "{\"DisplayValue\":\"{{{defaultResultKey}}}\", \"Value\":\"{{{defaultResultKey}}}\"}"
         }
