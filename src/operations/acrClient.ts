@@ -52,7 +52,7 @@ export default class AcrClient extends ServiceClient {
                 case 202:
                     // Request accepted, wait response status
                     console.log(tl.loc("Import operation accepted, waiting for operation result..."))
-                    tl.debug(response.headers);
+                    tl.debug(JSON.stringify(response.headers));
                     tl.debug("Call location endpoint")
                     var operationResult = await this.getOperationResultAsync(response.headers["Location"]);
                     if (operationResult === "Succeeded") {
