@@ -10,9 +10,11 @@ class AcrRegistry {
     location: string;
     resourceGroup: string;
     loginServer: string;
+    resourceId: string;
 }
 
-export class AcrTask {
+export default class AcrTaskParameters {
+
     version: string;
     name: string;
     repository: string;
@@ -25,11 +27,7 @@ export class AcrTask {
     valuesFilePath: string;
     arguments: string;
     tags: string[];
-}
 
-export default class AcrTaskParameters {
-
-    public acrTask: AcrTask;
     public sourceSubscriptionId: string;
     public targetSubscriptionId: string;
     public sourceCredentials: msRestAzure.ApplicationTokenCredentials;
@@ -52,23 +50,16 @@ export default class AcrTaskParameters {
             let azureSourceContainerRegistry = tl.getInput("azureSourceContainerRegistry", true);
             let azureTargetContainerRegistry = tl.getInput("azureTargetContainerRegistry", true);
 
-            this.acrTask = this.getAcrTaskStepDetails();
+            this.name = tl.getVariable('TASK.DISPLAYNAME');
 
-            this.acrTask.sourceRegistry = await this.getContainerRegistryDetails(sourceEndpoint, azureSourceContainerRegistry);
-            this.acrTask.targetRegistry = await this.getContainerRegistryDetails(targetEndpoint, azureTargetContainerRegistry);
+            this.sourceRegistry = await this.getContainerRegistryDetails(sourceEndpoint, azureSourceContainerRegistry);
+            this.targetRegistry = await this.getContainerRegistryDetails(targetEndpoint, azureTargetContainerRegistry);
 
             return this;
         }
         catch (error) {
             throw new Error(tl.loc("TaskConstructorFailed", error.message));
         }
-    }
-
-    private getAcrTaskStepDetails(): AcrTask {
-        let acrTask = new AcrTask();
-        acrTask.name = tl.getVariable('TASK.DISPLAYNAME');
-
-        return acrTask;
     }
 
     private async getContainerRegistryDetails(endpoint: AzureEndpoint, resourceName: string): Promise<AcrRegistry> {
@@ -83,7 +74,8 @@ export default class AcrTaskParameters {
             acrRegistry.name = resourceName;
             acrRegistry.location = acrRegistryObject.location;
             acrRegistry.resourceGroup = TaskUtil.getResourceGroupNameFromUrl(acrRegistryObject.id);
-            acrRegistry.loginServer = acrRegistryObject.loginServer
+            acrRegistry.loginServer = acrRegistryObject.loginServer;
+            acrRegistry.resourceId = acrRegistryObject.id;
             return acrRegistry;
         }
         else {
