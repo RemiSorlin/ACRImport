@@ -18,6 +18,5 @@ tl.setResourcePath(path.join( __dirname, 'node_modules/azure-pipelines-tasks-azu
 run().then((result) =>
    tl.setResult(tl.TaskResult.Succeeded, "")
 ).catch((error) => {
-    //tl.error(tl.loc("TroubleshootingGuide"));
     tl.setResult(tl.TaskResult.Failed, error)
 });

@@ -3,7 +3,7 @@ import webClient = require("azure-pipelines-tasks-azure-arm-rest-v2/webClient");
 import msRestAzure = require('azure-pipelines-tasks-azure-arm-rest-v2/azure-arm-common');
 import AcrTaskParameters from "../models/acrtaskparameters";
 import { ServiceClient } from "azure-pipelines-tasks-azure-arm-rest-v2/AzureServiceClient"
-import { ImportImageParameters, ImportMode, ImportSource, ImportSourceCredentials } from "../models/acrApiClient";
+import { ImportImageParameters, ImportMode, ImportSource } from "../models/acrApiClient";
 
 const acrApibaseUri: string = "//subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}";
 
@@ -40,17 +40,17 @@ export default class AcrClient extends ServiceClient {
         console.log("Calling REST API");
         console.log(httpRequest.body);
     
-        // this.beginRequest(httpRequest).then(async (response: webClient.WebResponse) => {
-        //     var statusCode = response.statusCode;
-        //     if (statusCode === 200) {
-        //         // Generate Response
-        //         console.log(tl.loc("ImportSuccessful"));
-        //     }
-        //     else {
-        //         // Generate exception
-        //         tl.logIssue(tl.IssueType.Error, tl.loc("ImportFailed"));
-        //     }
-        // });
+        this.beginRequest(httpRequest).then(async (response: webClient.WebResponse) => {
+            var statusCode = response.statusCode;
+            if (statusCode === 200) {
+                // Generate Response
+                console.log(tl.loc("ImportSuccessful"));
+            }
+            else {
+                // Generate exception
+                tl.logIssue(tl.IssueType.Error, tl.loc("ImportFailed"));
+            }
+        });
     }
 
     private _createHttpRequest(method: string, requestUri): webClient.WebRequest {
@@ -63,11 +63,6 @@ export default class AcrClient extends ServiceClient {
 
     private getRequestBody(): ImportImageParameters
     {
-        var sourceCredentials: ImportSourceCredentials = {
-            username: "",
-            password: ""
-        };
-
         var imageName = tl.getInput("sourceContainerRepository");
         var imageTag = tl.getInput("sourceTag");
         if (imageTag === "") {
@@ -76,10 +71,8 @@ export default class AcrClient extends ServiceClient {
         var imageNameAndTag = `${imageName}:${imageTag}`;
 
         var source: ImportSource = {
-            registryUri: "",
             resourceId: this.taskParameters.sourceRegistry.resourceId,
             sourceImage: imageNameAndTag,
-            credentials: sourceCredentials
         };
 
         var mode: ImportMode = "NoForce";
@@ -95,7 +88,7 @@ export default class AcrClient extends ServiceClient {
         return {
             source: source,
             mode: mode,
-            targetTags: []
+            targetTags: [ targetImageNameAndTag ]
         };
     }
 }
