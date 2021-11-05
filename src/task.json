@@ -16,7 +16,7 @@
     "version": {
         "Major": 0,
         "Minor": 0,
-        "Patch": 25
+        "Patch": 26
     },
     "instanceNameFormat": "acrImport",
     "showEnvironmentVariables": true,
