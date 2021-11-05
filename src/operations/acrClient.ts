@@ -42,7 +42,7 @@ export default class AcrClient extends ServiceClient {
         console.log("Calling REST API");
         tl.debug(httpRequest.body);
     
-        this.beginRequest(httpRequest).then(async (response: webClient.WebResponse) => {
+        await this.beginRequest(httpRequest).then(async (response: webClient.WebResponse) => {
             var statusCode = response.statusCode;
             switch (statusCode) {
                 case 200:
@@ -52,6 +52,8 @@ export default class AcrClient extends ServiceClient {
                 case 202:
                     // Request accepted, wait response status
                     console.log(tl.loc("Import operation accepted, waiting for operation result..."))
+                    tl.debug(response.headers);
+                    tl.debug("Call location endpoint")
                     var operationResult = await this.getOperationResultAsync(response.headers["Location"]);
                     if (operationResult === "Succeeded") {
                         console.log(tl.loc("ImportSuccessful"));
