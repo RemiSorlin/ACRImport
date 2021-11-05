@@ -22,14 +22,16 @@ export default class AcrClient extends ServiceClient {
 
     public async import(): Promise<void>
     {
-        let acrRegName = this.taskParameters.targetRegistry.name;
+        let acrName = this.taskParameters.targetRegistry.name;
         let resourceGroupName = this.taskParameters.targetRegistry.resourceGroup;
+
+        tl.debug(`Target ACR name: ${acrName}`);
         
         var requestUri = this.getRequestUri(
             `${acrApibaseUri}/importImage`,
             {
                 '{resourceGroupName}': resourceGroupName,
-                '{registryName}': acrRegName,
+                '{registryName}': acrName,
             });
 
         const requestMethod = "POST";
@@ -38,19 +40,68 @@ export default class AcrClient extends ServiceClient {
         httpRequest.body = JSON.stringify(requestBody);
 
         console.log("Calling REST API");
-        console.log(httpRequest.body);
+        tl.debug(httpRequest.body);
     
         this.beginRequest(httpRequest).then(async (response: webClient.WebResponse) => {
             var statusCode = response.statusCode;
-            if (statusCode === 200) {
-                // Generate Response
-                console.log(tl.loc("ImportSuccessful"));
-            }
-            else {
-                // Generate exception
-                tl.logIssue(tl.IssueType.Error, tl.loc("ImportFailed"));
+            switch (statusCode) {
+                case 200:
+                    // Generate Response
+                    console.log(tl.loc("ImportSuccessful"));
+                    break;
+                case 202:
+                    // Request accepted, wait response status
+                    console.log(tl.loc("Import operation accepted, waiting for operation result..."))
+                    var operationResult = await this.getOperationResultAsync(response.headers["Location"]);
+                    if (operationResult === "Succeeded") {
+                        console.log(tl.loc("ImportSuccessful"));
+                    } else {
+                        tl.logIssue(tl.IssueType.Error, tl.loc("ImportFailed"));
+                    }
+                    break;
+                default:
+                    // Generate exception
+                    tl.logIssue(tl.IssueType.Error, tl.loc("ImportFailed"));
             }
         });
+    }
+
+    private sleep(ms: number): Promise<any> {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    private async getOperationResultAsync(location: string): Promise<string>
+    {
+        console.log("Start polling location endpoint.");
+        tl.debug(`Location url: ${location}`);
+
+        var httpResultRequest = this._createHttpRequest("GET", location);
+        var status = "Pending";
+        var retryCount = 1;
+        const maxRetryCount = 5;
+
+        while (status === "Pending") {
+            await this.sleep(250);
+            tl.debug(`Get operation result, attempt ${retryCount} / ${maxRetryCount}.`);
+
+            await this.beginRequest(httpResultRequest).then(async (response: webClient.WebResponse) => {
+                let statusCode = response.statusCode;
+                if (statusCode === 200) {
+                    // Generate Response
+                    var responseBody = response.body;
+                    status = responseBody.status;
+                } else {
+                    // Generate exception
+                    status = "Error";
+                }
+            });
+            retryCount++;
+
+            if (status === "Pending" && retryCount > maxRetryCount) {
+                status = "Timeout";
+            }
+        }
+        return status;
     }
 
     private _createHttpRequest(method: string, requestUri): webClient.WebRequest {
@@ -79,7 +130,7 @@ export default class AcrClient extends ServiceClient {
 
         var targetImageNameAndTag = "";
         var targetImageTag = tl.getInput("targetTag");
-        if (targetImageTag === "") {
+        if (targetImageTag !== "") {
             targetImageNameAndTag = `${imageName}:${targetImageTag}`;
         } else {
             targetImageNameAndTag = imageName;
