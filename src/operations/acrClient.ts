@@ -90,15 +90,15 @@ export default class AcrClient extends ServiceClient {
             await this.beginRequest(httpResultRequest).then(async (response: webClient.WebResponse) => {
                 let statusCode = response.statusCode;
                 tl.debug(`Request status code:${statusCode}`);
+                tl.debug(response.body);
+                var responseBody = JSON.parse(response.body);
+                status = responseBody.status;
+                tl.debug(`Operation status:${status}`)
                 if (statusCode === 200) {
                     // Generate Response
-                    tl.debug(response.body);
-                    var responseBody = JSON.parse(response.body);
-                    status = responseBody.status;
-                    tl.debug(`Operation status:${status}`)
                 } else {
                     // Generate exception
-                    status = "Error";
+                    // status = "Error";
                 }
             });
             retryCount++;
