@@ -55,6 +55,7 @@ export default class AcrClient extends ServiceClient {
                     tl.debug(JSON.stringify(response.headers));
                     tl.debug("Call location endpoint")
                     var operationResult = await this.getOperationResultAsync(response.headers.location);
+                    console.log(`Operation result: ${operationResult}`)
                     if (operationResult === "Succeeded") {
                         console.log(tl.loc("ImportSuccessful"));
                     } else {
@@ -88,10 +89,13 @@ export default class AcrClient extends ServiceClient {
 
             await this.beginRequest(httpResultRequest).then(async (response: webClient.WebResponse) => {
                 let statusCode = response.statusCode;
+                tl.debug(`Request status code:${statusCode}`);
                 if (statusCode === 200) {
                     // Generate Response
-                    var responseBody = response.body;
+                    tl.debug(response.body);
+                    var responseBody = JSON.parse(response.body);
                     status = responseBody.status;
+                    tl.debug(`Operation status:${status}`)
                 } else {
                     // Generate exception
                     status = "Error";

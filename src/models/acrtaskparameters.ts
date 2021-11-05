@@ -63,10 +63,13 @@ export default class AcrTaskParameters {
     }
 
     private async getContainerRegistryDetails(endpoint: AzureEndpoint, resourceName: string): Promise<AcrRegistry> {
+        if(resourceName === "") {
+            throw new Error(tl.loc('AcrRegNameCannotBeEmpty'));
+        }
         var azureResources: Resources = new Resources(endpoint);
         var filteredResources: Array<any> = await azureResources.getResources('Microsoft.ContainerRegistry/registries', resourceName);
         if(!filteredResources || filteredResources.length == 0) {
-            throw new Error(tl.loc('ResourceDoesntExist', resourceName));
+            throw new Error(tl.loc('ResourceNotFound', resourceName));
         }
         else if(filteredResources.length == 1) {
             var acrRegistryObject = filteredResources[0];
