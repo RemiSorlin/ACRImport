@@ -80,26 +80,15 @@ export default class AcrClient extends ServiceClient {
 
         var httpResultRequest = this._createHttpRequest("GET", location);
         var status = "Accepted";
-        var retryCount = 1;
-        const maxRetryCount = 5;
 
         while (status === "Accepted") {
-            await this.sleep(250);
-            tl.debug(`Get operation result, attempt ${retryCount} / ${maxRetryCount}.`);
-
+            await this.sleep(500);
             await this.beginRequest(httpResultRequest).then(async (response: webClient.WebResponse) => {
                 let statusCode = response.statusCode;
                 tl.debug(`Request status code:${statusCode}`);
-                tl.debug(JSON.stringify(response.body));
-                var responseBody = response.body;
-                status = responseBody.status;
+                status = response.body.status;
                 tl.debug(`Operation status:${status}`)
             });
-            retryCount++;
-
-            if (status === "Accepted" && retryCount > maxRetryCount) {
-                status = "Timeout";
-            }
         }
         return status;
     }
