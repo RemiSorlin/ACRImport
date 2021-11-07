@@ -79,11 +79,11 @@ export default class AcrClient extends ServiceClient {
         tl.debug(`Location url: ${location}`);
 
         var httpResultRequest = this._createHttpRequest("GET", location);
-        var status = "Pending";
+        var status = "Accepted";
         var retryCount = 1;
         const maxRetryCount = 5;
 
-        while (status === "Pending") {
+        while (status === "Accepted") {
             await this.sleep(250);
             tl.debug(`Get operation result, attempt ${retryCount} / ${maxRetryCount}.`);
 
@@ -94,16 +94,10 @@ export default class AcrClient extends ServiceClient {
                 var responseBody = response.body;
                 status = responseBody.status;
                 tl.debug(`Operation status:${status}`)
-                if (statusCode === 200) {
-                    // Generate Response
-                } else {
-                    // Generate exception
-                    // status = "Error";
-                }
             });
             retryCount++;
 
-            if (status === "Pending" && retryCount > maxRetryCount) {
+            if (status === "Accepted" && retryCount > maxRetryCount) {
                 status = "Timeout";
             }
         }
