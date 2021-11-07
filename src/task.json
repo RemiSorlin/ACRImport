@@ -1,159 +1,153 @@
 {
-    "id": "4d3231b1-8151-4cc3-9ac1-ea23a10926db",
-    "name": "ACRImport",
-    "friendlyName": "ACR Import Task",
-    "description": "Import an image from a container registry into an Azure Container Registry",
-    "author": "Remi Sorlin",
-    "helpUrl": "",
-    "helpMarkDown": "",
-    "category": "Azure Pipelines",
-    "visibility": [
-        "Build",
-        "Release"
-    ],
-    "preview": true,
-    "demands": [],
-    "version": {
-        "Major": 0,
-        "Minor": 0,
-        "Patch": 32
-    },
-    "instanceNameFormat": "acrImport",
-    "showEnvironmentVariables": true,
-    "groups": [
-        {
-            "name": "source",
-            "displayName": "Source",
-            "isExpanded": true
-        },
-        {
-            "name": "target",
-            "displayName": "Target",
-            "isExpanded": true
-        }
-    ],
-    "inputs": [
-        {
-            "name": "sourceConnectedServiceName",
-            "aliases": [
-                "azureSourceSubscription"
-            ],
-            "type": "connectedService:AzureRM",
-            "label": "Azure subscription",
-            "required": true,
-            "defaultValue": "",
-            "helpMarkDown": "Select an Azure resource manager subscription to import from",
-            "groupName": "source"
-        },
-        {
-            "name": "azureSourceContainerRegistry",
-            "label": "Azure Container Registry",
-            "type": "pickList",
-            "helpMarkDown": "Select an Azure Container Registry that hosts your source repository",
-            "required": true,
-            "defaultValue": "",
-            "groupName": "source"
-        },
-        {
-            "name": "sourceContainerRepository",
-            "label": "Container repository",
-            "type": "pickList",
-            "helpMarkDown": "Select the source repository.",
-            "required": true,
-            "defaultValue": "",
-            "groupName": "source"
-        },
-        {
-            "name": "sourceTag",
-            "type": "string",
-            "label": "Source tag",
-            "defaultValue": "latest",
-            "required": false,
-            "helpMarkDown": "Image tag to import. Default value is latest image tag.",
-            "groupName": "source"
-        },
-        {
-            "name": "targetConnectedServiceName",
-            "aliases": [
-                "azureTargetSubscription"
-            ],
-            "type": "connectedService:AzureRM",
-            "label": "Azure subscription",
-            "required": true,
-            "defaultValue": "",
-            "helpMarkDown": "Select an Azure resource manager subscription to export to",
-            "groupName": "target"
-        },
-        {
-            "name": "azureTargetContainerRegistry",
-            "label": "Azure Container Registry",
-            "type": "pickList",
-            "helpMarkDown": "Select an Azure Container Registry that hosts your target repository",
-            "required": true,
-            "defaultValue": "",
-            "groupName": "target"
-        },
-        {
-            "name": "targetContainerRepository",
-            "label": "Container repository",
-            "type": "pickList",
-            "helpMarkDown": "Select the target repository.",
-            "required": true,
-            "defaultValue": "",
-            "groupName": "target"
-        },
-        {
-            "name": "targetTag",
-            "type": "string",
-            "label": "Override target tag",
-            "defaultValue": "",
-            "required": false,
-            "helpMarkDown": "Override tag on the destination image",
-            "groupName": "target"
-        }
-    ],
-    "dataSourceBindings": [
-        {
-            "target": "azureSourceContainerRegistry",
-            "endpointId": "$(sourceConnectedServiceName)",
-            "dataSourceName": "AzureRMContainerRegistries",
-            "resultTemplate": "{\"DisplayValue\":\"{{{name}}}\", \"Value\":\"{{{name}}}\"}"
-        },
-        {
-            "target": "sourceContainerRepository",
-            "endpointId": "$(sourceConnectedServiceName)",
-            "dataSourceName": "AzureContainerRegistryRepositories",
-            "parameters": {
-                "registryurl": "$(azureSourceContainerRegistry).azurecr.io"
-            },
-            "resultTemplate": "{\"DisplayValue\":\"{{{defaultResultKey}}}\", \"Value\":\"{{{defaultResultKey}}}\"}"
-        },
-        {
-            "target": "azureTargetContainerRegistry",
-            "endpointId": "$(targetConnectedServiceName)",
-            "dataSourceName": "AzureRMContainerRegistries",
-            "resultTemplate": "{\"DisplayValue\":\"{{{name}}}\", \"Value\":\"{{{name}}}\"}"
-        },
-        {
-            "target": "targetContainerRepository",
-            "endpointId": "$(targetConnectedServiceName)",
-            "dataSourceName": "AzureContainerRegistryRepositories",
-            "parameters": {
-                "registryurl": "$(azureTargetContainerRegistry).azurecr.io"
-            },
-            "resultTemplate": "{\"DisplayValue\":\"{{{defaultResultKey}}}\", \"Value\":\"{{{defaultResultKey}}}\"}"
-        }
-    ],
-    "execution": {
-        "Node": {
-            "target": "main.js",
-            "argumentFormat": ""
-        }
-    },
-    "messages": {
-        "TestMessage": "This is a test message",
-        "ResourceNotFound": "Resource '%s' not found.",
-        "MultipleResourceGroupFoundForContainerRegistry": "Multiple resource groups found for container registry '%s'.",
-        "AcrRegNameCannotBeEmpty": "The Azure container registry name cannot be null."
-    }
+    "id":  "4d3231b1-8151-4cc3-9ac1-ea23a10926db",
+    "name":  "ACRImport",
+    "friendlyName":  "ACR Import Task",
+    "description":  "Import an image from a container registry into an Azure Container Registry",
+    "author":  "Remi Sorlin",
+    "helpUrl":  "",
+    "helpMarkDown":  "",
+    "category":  "Azure Pipelines",
+    "visibility":  [
+                       "Build",
+                       "Release"
+                   ],
+    "preview":  true,
+    "demands":  [
+
+                ],
+    "version":  {
+                    "Major":  0,
+                    "Minor":  0,
+                    "Patch":  34
+                },
+    "instanceNameFormat":  "acrImport",
+    "showEnvironmentVariables":  true,
+    "groups":  [
+                   {
+                       "name":  "source",
+                       "displayName":  "Source",
+                       "isExpanded":  true
+                   },
+                   {
+                       "name":  "target",
+                       "displayName":  "Target",
+                       "isExpanded":  true
+                   }
+               ],
+    "inputs":  [
+                   {
+                       "name":  "sourceConnectedServiceName",
+                       "aliases":  "azureSourceSubscription",
+                       "type":  "connectedService:AzureRM",
+                       "label":  "Azure subscription",
+                       "required":  true,
+                       "defaultValue":  "",
+                       "helpMarkDown":  "Select an Azure resource manager subscription to import from",
+                       "groupName":  "source"
+                   },
+                   {
+                       "name":  "azureSourceContainerRegistry",
+                       "label":  "Azure Container Registry",
+                       "type":  "pickList",
+                       "helpMarkDown":  "Select an Azure Container Registry that hosts your source repository",
+                       "required":  true,
+                       "defaultValue":  "",
+                       "groupName":  "source"
+                   },
+                   {
+                       "name":  "sourceContainerRepository",
+                       "label":  "Container repository",
+                       "type":  "pickList",
+                       "helpMarkDown":  "Select the source repository.",
+                       "required":  true,
+                       "defaultValue":  "",
+                       "groupName":  "source"
+                   },
+                   {
+                       "name":  "sourceTag",
+                       "type":  "string",
+                       "label":  "Source tag",
+                       "defaultValue":  "latest",
+                       "required":  false,
+                       "helpMarkDown":  "Image tag to import. Default value is latest image tag.",
+                       "groupName":  "source"
+                   },
+                   {
+                       "name":  "targetConnectedServiceName",
+                       "aliases":  "azureTargetSubscription",
+                       "type":  "connectedService:AzureRM",
+                       "label":  "Azure subscription",
+                       "required":  true,
+                       "defaultValue":  "",
+                       "helpMarkDown":  "Select an Azure resource manager subscription to export to",
+                       "groupName":  "target"
+                   },
+                   {
+                       "name":  "azureTargetContainerRegistry",
+                       "label":  "Azure Container Registry",
+                       "type":  "pickList",
+                       "helpMarkDown":  "Select an Azure Container Registry that hosts your target repository",
+                       "required":  true,
+                       "defaultValue":  "",
+                       "groupName":  "target"
+                   },
+                   {
+                       "name":  "targetContainerRepository",
+                       "label":  "Container repository",
+                       "type":  "pickList",
+                       "helpMarkDown":  "Select the target repository.",
+                       "required":  true,
+                       "defaultValue":  "",
+                       "groupName":  "target"
+                   },
+                   {
+                       "name":  "targetTag",
+                       "type":  "string",
+                       "label":  "Override target tag",
+                       "defaultValue":  "",
+                       "required":  false,
+                       "helpMarkDown":  "Override tag on the destination image",
+                       "groupName":  "target"
+                   }
+               ],
+    "dataSourceBindings":  [
+                               {
+                                   "target":  "azureSourceContainerRegistry",
+                                   "endpointId":  "$(sourceConnectedServiceName)",
+                                   "dataSourceName":  "AzureRMContainerRegistries",
+                                   "resultTemplate":  "{\"DisplayValue\":\"{{{name}}}\", \"Value\":\"{{{name}}}\"}"
+                               },
+                               {
+                                   "target":  "sourceContainerRepository",
+                                   "endpointId":  "$(sourceConnectedServiceName)",
+                                   "dataSourceName":  "AzureContainerRegistryRepositories",
+                                   "parameters":  "@{registryurl=$(azureSourceContainerRegistry).azurecr.io}",
+                                   "resultTemplate":  "{\"DisplayValue\":\"{{{defaultResultKey}}}\", \"Value\":\"{{{defaultResultKey}}}\"}"
+                               },
+                               {
+                                   "target":  "azureTargetContainerRegistry",
+                                   "endpointId":  "$(targetConnectedServiceName)",
+                                   "dataSourceName":  "AzureRMContainerRegistries",
+                                   "resultTemplate":  "{\"DisplayValue\":\"{{{name}}}\", \"Value\":\"{{{name}}}\"}"
+                               },
+                               {
+                                   "target":  "targetContainerRepository",
+                                   "endpointId":  "$(targetConnectedServiceName)",
+                                   "dataSourceName":  "AzureContainerRegistryRepositories",
+                                   "parameters":  "@{registryurl=$(azureTargetContainerRegistry).azurecr.io}",
+                                   "resultTemplate":  "{\"DisplayValue\":\"{{{defaultResultKey}}}\", \"Value\":\"{{{defaultResultKey}}}\"}"
+                               }
+                           ],
+    "execution":  {
+                      "Node":  {
+                                   "target":  "main.js",
+                                   "argumentFormat":  ""
+                               }
+                  },
+    "messages":  {
+                     "TestMessage":  "This is a test message",
+                     "ResourceNotFound":  "Resource \u0027%s\u0027 not found.",
+                     "MultipleResourceGroupFoundForContainerRegistry":  "Multiple resource groups found for container registry \u0027%s\u0027.",
+                     "AcrRegNameCannotBeEmpty":  "The Azure container registry name cannot be null."
+                 }
 }
