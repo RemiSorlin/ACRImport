@@ -51,7 +51,7 @@ export default class AcrClient extends ServiceClient {
                     break;
                 case 202:
                     // Request accepted, wait response status
-                    console.log(tl.loc("Import operation accepted, waiting for operation result..."))
+                    console.log(tl.loc("ImportOperationAccepted"))
                     tl.debug(JSON.stringify(response.headers));
                     tl.debug("Call location endpoint")
                     var operationResult = await this.getOperationResultAsync(response.headers.location);
@@ -84,7 +84,7 @@ export default class AcrClient extends ServiceClient {
         var status = "Accepted";
 
         while (status === "Accepted") {
-            await this.sleep(500);
+            await this.sleep(1000);
             await this.beginRequest(httpResultRequest).then(async (response: webClient.WebResponse) => {
                 let statusCode = response.statusCode;
                 tl.debug(`Request status code:${statusCode}`);
