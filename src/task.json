@@ -16,7 +16,7 @@
     "version": {
         "Major": 0,
         "Minor": 0,
-        "Patch": 35
+        "Patch": 36
     },
     "instanceNameFormat": "acrImport",
     "showEnvironmentVariables": true,
@@ -43,7 +43,10 @@
             "required": true,
             "defaultValue": "",
             "helpMarkDown": "Select an Azure resource manager subscription to import from",
-            "groupName": "source"
+            "groupName": "source",
+            "properties": {
+                "EditableOptions": "True"
+            }
         },
         {
             "name": "azureSourceContainerRegistry",
@@ -52,7 +55,10 @@
             "helpMarkDown": "Select an Azure Container Registry that hosts your source repository",
             "required": true,
             "defaultValue": "",
-            "groupName": "source"
+            "groupName": "source",
+            "properties": {
+                "EditableOptions": "True"
+            }
         },
         {
             "name": "sourceContainerRepository",
@@ -61,7 +67,10 @@
             "helpMarkDown": "Select the source repository.",
             "required": true,
             "defaultValue": "",
-            "groupName": "source"
+            "groupName": "source",
+            "properties": {
+                "EditableOptions": "True"
+            }
         },
         {
             "name": "sourceTag",
@@ -82,7 +91,10 @@
             "required": true,
             "defaultValue": "",
             "helpMarkDown": "Select an Azure resource manager subscription to export to",
-            "groupName": "target"
+            "groupName": "target",
+            "properties": {
+                "EditableOptions": "True"
+            }
         },
         {
             "name": "azureTargetContainerRegistry",
@@ -91,7 +103,10 @@
             "helpMarkDown": "Select an Azure Container Registry that hosts your target repository",
             "required": true,
             "defaultValue": "",
-            "groupName": "target"
+            "groupName": "target",
+            "properties": {
+                "EditableOptions": "True"
+            }
         },
         {
             "name": "targetContainerRepository",
@@ -100,7 +115,10 @@
             "helpMarkDown": "Select the target repository.",
             "required": true,
             "defaultValue": "",
-            "groupName": "target"
+            "groupName": "target",
+            "properties": {
+                "EditableOptions": "True"
+            }
         },
         {
             "name": "targetTag",
@@ -124,7 +142,7 @@
             "endpointId": "$(sourceConnectedServiceName)",
             "dataSourceName": "AzureContainerRegistryRepositories",
             "parameters": {
-                "registryurl": "$(azureSourceContainerRegistry).azurecr.io"
+                "registryurl": "$(azureSourceContainerRegistry).azurecr.io/"
             },
             "resultTemplate": "{\"DisplayValue\":\"{{{defaultResultKey}}}\", \"Value\":\"{{{defaultResultKey}}}\"}"
         },
