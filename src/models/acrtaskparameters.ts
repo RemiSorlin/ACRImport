@@ -58,7 +58,7 @@ export default class AcrTaskParameters {
             return this;
         }
         catch (error) {
-            throw new Error(tl.loc("TaskConstructorFailed", error.message));
+            throw new Error(tl.loc("TaskInitializationFailed", error.message));
         }
     }
 

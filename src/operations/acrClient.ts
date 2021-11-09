@@ -65,6 +65,8 @@ export default class AcrClient extends ServiceClient {
                 default:
                     // Generate exception
                     tl.logIssue(tl.IssueType.Error, tl.loc("ImportFailed"));
+                    tl.logIssue(tl.IssueType.Error, `Received error code: ${statusCode} - ${response.statusMessage}`);
+                    throw new Error(tl.loc("ImportFailed"));
             }
         });
     }

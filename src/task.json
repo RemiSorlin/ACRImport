@@ -16,7 +16,7 @@
     "version": {
         "Major": 0,
         "Minor": 0,
-        "Patch": 36
+        "Patch": 37
     },
     "instanceNameFormat": "acrImport",
     "showEnvironmentVariables": true,
@@ -173,6 +173,7 @@
         "ImportFailed": "Import failed!",
         "ResourceNotFound": "Resource '%s' not found.",
         "MultipleResourceGroupFoundForContainerRegistry": "Multiple resource groups found for container registry '%s'.",
-        "AcrRegNameCannotBeEmpty": "The Azure container registry name cannot be null."
+        "AcrRegNameCannotBeEmpty": "The Azure container registry name cannot be null.",
+        "TaskInitializationFailed": "An error occured while initializing the task parameters."
     }
 }
