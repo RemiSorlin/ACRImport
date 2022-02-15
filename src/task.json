@@ -15,8 +15,8 @@
     "demands": [],
     "version": {
         "Major": 0,
-        "Minor": 0,
-        "Patch": 38
+        "Minor": 1,
+        "Patch": 0
     },
     "instanceNameFormat": "acrImport",
     "showEnvironmentVariables": true,
@@ -142,7 +142,7 @@
             "endpointId": "$(sourceConnectedServiceName)",
             "dataSourceName": "AzureContainerRegistryRepositories",
             "parameters": {
-                "registryurl": "$(azureSourceContainerRegistry).azurecr.io/"
+                "registryurl": "$(azureSourceContainerRegistry).azurecr.io"
             },
             "resultTemplate": "{\"DisplayValue\":\"{{{defaultResultKey}}}\", \"Value\":\"{{{defaultResultKey}}}\"}"
         },
