@@ -15,7 +15,7 @@
     "demands": [],
     "version": {
         "Major": 0,
-        "Minor": 1,
+        "Minor": 2,
         "Patch": 0
     },
     "instanceNameFormat": "acrImport",
@@ -63,14 +63,11 @@
         {
             "name": "sourceContainerRepository",
             "label": "Container repository",
-            "type": "pickList",
-            "helpMarkDown": "Select the source repository.",
+            "type": "string",
+            "helpMarkDown": "Name of the source repository.",
             "required": true,
             "defaultValue": "",
-            "groupName": "source",
-            "properties": {
-                "EditableOptions": "True"
-            }
+            "groupName": "source"
         },
         {
             "name": "sourceTag",
@@ -111,14 +108,11 @@
         {
             "name": "targetContainerRepository",
             "label": "Container repository",
-            "type": "pickList",
-            "helpMarkDown": "Select the target repository.",
+            "type": "string",
+            "helpMarkDown": "Name of the target repository.",
             "required": true,
             "defaultValue": "",
-            "groupName": "target",
-            "properties": {
-                "EditableOptions": "True"
-            }
+            "groupName": "target"
         },
         {
             "name": "targetTag",
@@ -138,28 +132,10 @@
             "resultTemplate": "{\"DisplayValue\":\"{{{name}}}\", \"Value\":\"{{{name}}}\"}"
         },
         {
-            "target": "sourceContainerRepository",
-            "endpointId": "$(sourceConnectedServiceName)",
-            "dataSourceName": "AzureContainerRegistryRepositories",
-            "parameters": {
-                "registryurl": "$(azureSourceContainerRegistry).azurecr.io"
-            },
-            "resultTemplate": "{\"DisplayValue\":\"{{{defaultResultKey}}}\", \"Value\":\"{{{defaultResultKey}}}\"}"
-        },
-        {
             "target": "azureTargetContainerRegistry",
             "endpointId": "$(targetConnectedServiceName)",
             "dataSourceName": "AzureRMContainerRegistries",
             "resultTemplate": "{\"DisplayValue\":\"{{{name}}}\", \"Value\":\"{{{name}}}\"}"
-        },
-        {
-            "target": "targetContainerRepository",
-            "endpointId": "$(targetConnectedServiceName)",
-            "dataSourceName": "AzureContainerRegistryRepositories",
-            "parameters": {
-                "registryurl": "$(azureTargetContainerRegistry).azurecr.io"
-            },
-            "resultTemplate": "{\"DisplayValue\":\"{{{defaultResultKey}}}\", \"Value\":\"{{{defaultResultKey}}}\"}"
         }
     ],
     "execution": {
