@@ -15,7 +15,7 @@
     "demands": [],
     "version": {
         "Major": 0,
-        "Minor": 2,
+        "Minor": 3,
         "Patch": 0
     },
     "instanceNameFormat": "acrImport",
@@ -104,15 +104,6 @@
             "properties": {
                 "EditableOptions": "True"
             }
-        },
-        {
-            "name": "targetContainerRepository",
-            "label": "Container repository",
-            "type": "string",
-            "helpMarkDown": "Name of the target repository.",
-            "required": true,
-            "defaultValue": "",
-            "groupName": "target"
         },
         {
             "name": "targetTag",
