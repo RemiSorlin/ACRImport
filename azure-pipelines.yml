@@ -55,8 +55,9 @@ stages:
               connectedServiceName: 'Marketplace connection'
               publisherId: '$(PublisherID)'
               extensionId: '$(ExtensionID)'
-              versionAction: 'Patch'
+              versionAction: 'Minor'
               outputVariable: 'Task.Extension.Version'
+              setBuildNumber: 'true'
           - task: PackageAzureDevOpsExtension@3
             inputs:
               rootFolder: '$(System.DefaultWorkingDirectory)'
