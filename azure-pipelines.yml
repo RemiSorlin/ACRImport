@@ -65,8 +65,8 @@ stages:
               extensionName: '$(ExtensionName)'
               extensionVersion: '$(Task.Extension.Version)'
               updateTasksVersion: true
-              updateTasksVersionType: 'patch'
-              extensionVisibility: 'private' # Change to public if you're publishing to the marketplace
+              updateTasksVersionType: 'minor'
+              extensionVisibility: 'private'
               extensionPricing: 'free'
           - task: CopyFiles@2
             displayName: "Copy Files to: $(Build.ArtifactStagingDirectory)"
